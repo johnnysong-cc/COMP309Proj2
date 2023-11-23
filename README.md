@@ -49,7 +49,7 @@ Provide the following deliverables:
 
 - [ ] Use Flask to create an API.
 - [ ] Serialize and deserialize the model using the pickle module.
-- [ ] Build a client to test the model API service.
+- [ ] Build a client to test the model API service. Postman is the mimimum.
 
 ### Prepare a report
 
