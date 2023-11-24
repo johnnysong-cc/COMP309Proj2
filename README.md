@@ -4,6 +4,11 @@
 
 - Johnny Z. Song (301167073)
 
+## GitHub Rules:
+
+- I started this project by creating the `main` branch with some initial steps. 
+
+- Since inviting other members, we will be working on our own branches and fire pull requests to merge into `main` branch. Please do not commit directly to `main` branch.
 
 ## Project Objectives:
 - [ ] Obtain and prepare data:
