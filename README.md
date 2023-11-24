@@ -35,7 +35,7 @@ Provide the following deliverables:
 
 ### Data modeling
 
-- [ ] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
+- [◑] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
 - [ ] Select features.
 - [ ] Split data into training and testing sets.
 - [ ] Handle imbalanced classes if needed.
