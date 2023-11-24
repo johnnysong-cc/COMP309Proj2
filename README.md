@@ -24,9 +24,9 @@ Provide the following deliverables:
 ### Data exploration
 
 - [x] Load and describe data elements (columns), providing descriptions, types, ranges, and values.
-- [ ] Perform statistical assessments, including means, averages, and correlations.
-- [ ] Evaluate missing data.
-- [ ] Create graphs and visualizations.
+- [◑] Perform statistical assessments, including means, averages, and correlations.
+- [x] Evaluate missing data.
+- [◑] Create graphs and visualizations.
 
 ### Data modeling
 
@@ -61,7 +61,7 @@ Provide the following deliverables:
 - Data Columns Explained:
   - X & Y: The coordinates in a specific projection system used for mapping and spatial analysis, representing longitude (X) and latitude (Y).
   - OBJECTID: The unique identifier for each record.
-  - EVENT_UNIQUE_ID: The unique identifier for each reported event, probably assigned by the police department.
+  - EVENT_UNIQUE_ID: The unique identifier for each reported event.
   - PRIMARY_OFFENCE: The main offence reported in the event, such as "THEFT UNDER" or "PROPERTY - FOUND".
   - OCC_DATE: The date and time when the offence occurred.
   - OCC_YEAR, OCC_MONTH, OCC_DOW (Day Of Week), OCC_DAY, OCC_DOY (Day Of Year), OCC_HOUR: detailed timing information about when the offence occurred, split into year, month, day, day of the week, day of the year, and hour of the day.
