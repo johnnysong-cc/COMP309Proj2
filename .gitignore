@@ -4,3 +4,5 @@
 # Python virtualenv & compiled files
 venv/
 *.pyc
+.idea
+
