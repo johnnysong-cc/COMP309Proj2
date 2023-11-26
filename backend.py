@@ -1,11 +1,13 @@
 # region: import dependencies
+import os
+import random
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 import pandas as pd
 import seaborn as sns
-
+from sklearn.impute import SimpleImputer
 # endregion
+
 
 
 # region: Load and describe data elements (columns), providing descriptions, types, ranges, and values.
@@ -59,8 +61,8 @@ print(corr_matrix_num_to_num_filtered)
 # corr_matrix_cat_to_num_filtered = corr_matrix_cat_to_num.where((corr_matrix_cat_to_num > 0.5) | (corr_matrix_cat_to_num < -0.5))
 # print(corr_matrix_cat_to_num_filtered)
 
-# TODO: Correlation Matrix of Categorical Data
-# TODO: Correlation Matrix of Categorical-Numerical Data
+# TODO: Correlation Matrix of Categorical Data? (even possible or necessary?)
+# TODO: Correlation Matrix of Categorical-Numerical Data? (even possible or necessary?)
 
 # endregion
 
@@ -86,9 +88,36 @@ missing_rows_bike_cost = raw_data_df[raw_data_df['BIKE_COST'].isnull()].index.to
 # print(f'\nMissing Rows in BIKE_COST: \n{missing_rows_bike_cost}\n\n')
 
 # Visualize the missing data
-sns.heatmap(missing_data_df, cmap='viridis', cbar=False)
-# plt.imshow(missing_data_df, cmap='viridis', aspect='auto', interpolation='nearest')
+# sns.heatmap(missing_data_df, cmap='viridis', cbar=False)
+plt.imshow(missing_data_df, cmap='viridis', aspect='auto', interpolation='nearest')
 plt.show()
+
+# Imputation for missing data
+imputer_freq = SimpleImputer(strategy='most_frequent')
+imputer_mean = SimpleImputer(strategy='mean')
+imputer_median = SimpleImputer(strategy='median')
+imputer_unknown = SimpleImputer(strategy='constant', fill_value='Unknown')
+
+# For BIKE_MAKE: Most frequent
+raw_data_df['BIKE_MAKE'] = imputer_freq.fit_transform(raw_data_df[['BIKE_MAKE']]).ravel()
+# For BIKE_MODEL: Fill with a new category 'Unknown'
+raw_data_df['BIKE_MODEL'] = imputer_unknown.fit_transform(raw_data_df[['BIKE_MODEL']]).ravel()  
+# For BIKE_SPEED: Median
+raw_data_df['BIKE_SPEED'] = imputer_median.fit_transform(raw_data_df[['BIKE_SPEED']]).ravel()     # TODO: discussion: median vs mean? which is better?
+# For BIKE_COLOUR: Most frequent
+raw_data_df['BIKE_COLOUR'] = imputer_freq.fit_transform(raw_data_df[['BIKE_COLOUR']]).ravel()
+# For BIKE_COST: Mean
+raw_data_df['BIKE_COST'] = imputer_mean.fit_transform(raw_data_df[['BIKE_COST']]).ravel()         # TODO: discussion: median vs mean? which is better?
+
+missing_data_df_imputed = raw_data_df.isnull().sum().to_frame(name='missing_count')
+plt.imshow(missing_data_df_imputed, cmap='viridis', aspect='auto', interpolation='nearest')
+plt.show()  # All missing data have been imputed and the heatmap is now empty
+
+# TODO: Transformation 1: De-duplicate the data ("OCC_DATE" vs "OCC_YEAR", "OCC_MONTH", ...; "REPORT_DATE" vs "REPORT_YEAR", "REPORT_MONTH", ...)
+# TODO: Transformation 2: Convert "OCC_DATE" and "REPORT_DATE" to Unix timestamp
+# TODO: Transformation 3: Convert categorical data to numerical data ("BIKE_MAKE" to "BIKE_MAKE_ID", "BIKE_MODEL" to "BIKE_MODEL_ID", "BIKE_COLOUR" to "BIKE_COLOUR_ID", ...)
+# TODO: Transformation 4: Normalize numeric data ("BIKE_COST" to "BIKE_COST_NORMALIZED", "BIKE_SPEED" to "BIKE_SPEED_NORMALIZED")
+# TODO: Transformation 5: Bin numeric data ("BIKE_COST" to "BIKE_COST_BIN", "BIKE_SPEED" to "BIKE_SPEED_BIN")
 
 # endregion
 
