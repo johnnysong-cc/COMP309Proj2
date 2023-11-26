@@ -3,7 +3,6 @@
 ## Group Members:
 
 - Johnny Z. Song (301167073)
-- Ruslan Ibragimov (301199215)
 
 ## GitHub Rules:
 
@@ -23,28 +22,7 @@
 ## Project Dataset:
 -  [Download link](https://opendata.arcgis.com/api/v3/datasets/a89d10d5e28444ceb0c8d1d4c0ee39cc_0/downloads/data?format=csv&spatialRefId=3857&where=1%3D1)
 
-## Setup Instructions
-
-### Step 1: Create a Virtual Environment
-To isolate our project's dependencies, we'll use a virtual environment. This helps to keep your global Python environment clean and manage project-specific dependencies more effectively. Run the following command to create a virtual environment named `venv`:
-
-```bash
-python3 -m venv venv
-```
-
-### Step 2: Activate the Virtual Environment
-After creating the virtual environment, you need to activate it. This will ensure that any Python packages you install will be contained within this environment. Use the following command to activate it:
-
-```bash
-source venv/bin/activate
-```
-
-### Step 3: Install Required Packages
-Now that your virtual environment is active, install the required packages as defined in the `requirements.txt` file. This file lists all the necessary Python packages for the project. Run this command to install them:
-
-```bash
-pip install -r requirements.txt
-```
+## Project Requirements:
 
 Provide the following deliverables:
 
