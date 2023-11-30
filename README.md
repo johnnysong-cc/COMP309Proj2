@@ -9,7 +9,7 @@
 
 - I started this project by creating the `main` branch with some initial steps. 
 
-- Since inviting other members, we will be working on our own branches and fire pull requests to merge into `main` branch. Please do not commit directly to `main` branch.
+- Since inviting other members, we will be working on our own branches and fire pull requests to merge into the `main` branch. Please do not commit directly to `main` branch.
 
 ## Project Objectives:
 - [ ] Obtain and prepare data:
@@ -89,17 +89,40 @@ Provide the following deliverables:
   - X & Y: The coordinates in a specific projection system used for mapping and spatial analysis, representing longitude (X) and latitude (Y).
   - OBJECTID: The unique identifier for each record.
   - EVENT_UNIQUE_ID: The unique identifier for each reported event.
-  - PRIMARY_OFFENCE: The main offence reported in the event, such as "THEFT UNDER" or "PROPERTY - FOUND".
+  - PRIMARY_OFFENCE: The main offence reported in the event
+    - "UNDER/OVER": lower/higher than a particular value
+    - 
   - OCC_DATE: The date and time when the offence occurred.
   - OCC_YEAR, OCC_MONTH, OCC_DOW (Day Of Week), OCC_DAY, OCC_DOY (Day Of Year), OCC_HOUR: detailed timing information about when the offence occurred, split into year, month, day, day of the week, day of the year, and hour of the day.
   - REPORT_DATE, REPORT_YEAR, REPORT_MONTH, REPORT_DOW, REPORT_DAY, REPORT_DOY, REPORT_HOUR: etailed timing information about when the offence was reported, split into year, month, day, day of the week, day of the year, and hour of the day.
   - DIVISION: The police division that recorded the event.
-  - LOCATION_TYPE: The general type of the location where the event occurred, e.g., "Apartment" or "Commercial".
-  - PREMISES_TYPE: The specific type of the premises, such as "House" or "Apartment".
-  - BIKE_MAKE, BIKE_MODEL, BIKE_TYPE: The information about the bicycle, including the make, model, and type.
+  - LOCATION_TYPE: The **general** type of the location where the event occurred, e.g., "Apartment" or "Commercial".
+  - PREMISES_TYPE: The **specific** type of the premises, such as "House" or "Apartment".
+  - BIKE_MAKE: The information about the bicycle
+    - 
+  - BIKE_MODEL: The information about the bicycle
+    - 
+  - BIKE_TYPE: The information about the bicycle
+    - MT: Mountain Bike
+    - RG: Road Bike
+    - RC: Racing Cycle
+    - EL: Electric Bike
+    - TO: Touring Bike
+    - SC: Scooter
+    - BM: BMX Bike
+    - FO: Folding Bike
+    - TR: Trainer Bike
+    - TA: Tandem Bike
+    - RE: Recreational Bike
+    - UN: Unicycle
+    - OT: Other Type
   - BIKE_SPEED: The number of speeds the bike has.
+    - 1: Single Speed
+    - 
   - BIKE_COLOUR: The color of the bicycle.
   - BIKE_COST: The cost or value of the bicycle.
   - STATUS: Indicates whether the bicycle was stolen, recovered, etc.
   - HOOD_140 & NEIGHBOURHOOD_140 & HOOD_158 & NEIGHBOURHOOD_158: The numberic code 158 could be an identifier for data tracking purposes or a version number in a specific coding system for neighborhoods used by the Toronto Police
   - LONG_WGS84 & LAT_WGS84: The longitude and latitude of the event location in the WGS84 coordinate system (a standard used in cartography, geodesy, and navigation).
+
+- As per requirements, we will remove the position-associated columns at the beginning of the project, but types of locations are still useful so we will keep them.

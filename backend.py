@@ -75,8 +75,7 @@ missing_data_df_filtered = missing_data_df[missing_data_df['missing_count'] > 0]
 print(f'\nMissing Data: \n{missing_data_df_filtered}\n\n')
 
 # Get the row indices of the missing data
-missing_rows_bike_make = raw_data_df[
-    raw_data_df['BIKE_MAKE'].isnull()].index.to_list()  # TODO: return the non-zero rows to avoid hard-coding
+missing_rows_bike_make = raw_data_df[raw_data_df['BIKE_MAKE'].isnull()].index.to_list()  # TODO: return the non-zero rows to avoid hard-coding
 missing_rows_bike_model = raw_data_df[raw_data_df['BIKE_MODEL'].isnull()].index.to_list()
 missing_rows_bike_speed = raw_data_df[raw_data_df['BIKE_SPEED'].isnull()].index.to_list()
 missing_rows_bike_colour = raw_data_df[raw_data_df['BIKE_COLOUR'].isnull()].index.to_list()
