@@ -1,6 +1,6 @@
 # region: Import dependencies
 
-import os, sys, random, matplotlib.pyplot as plt, numpy as np, pandas as pd, seaborn as sns
+import os, joblib, matplotlib.pyplot as plt, numpy as np, pandas as pd, seaborn as sns
 import statsmodels.api as sm
 from sklearn.impute import SimpleImputer
 from sklearn import preprocessing
@@ -14,15 +14,14 @@ from sklearn.metrics import mean_squared_error, r2_score
 # region: Load cleansed data
 
 filename = 'bicycle_thefts_data_regr.csv'
-filepath = os.getcwd() + '/data/' + filename
+filepath = os.path.dirname(os.getcwd()) + '/data/' + filename
 bicycle_thefts_data_regr = pd.read_csv(filepath)
 
 # endregion
 
-
 # region: Linear Regression Modeling - Predicting report delay in hours based on the other variables
 
-# Feature Selection (Backward selection to keep the variables with low p-values and eliminate the ones with high p-values to increase the R squared value)
+# Feature Selection
 bicycle_thefts_data_regr['Report_Delay'] = pd.to_datetime((bicycle_thefts_data_regr['REPORT_TIMESTAMP'] - bicycle_thefts_data_regr['OCC_TIMESTAMP']), unit='s').dt.hour
 # data_encoded = bicycle_thefts_data_regr\
 #                 .select_dtypes(include=[np.number])\
@@ -50,7 +49,7 @@ print(X.columns)
 # Split data into training and testing sets (75:25)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# Train the model (Managing imbalanced classes if needed)
+# Train the model
 linear_model = LinearRegression()
 linear_model.fit(X_train, y_train)
 
@@ -66,4 +65,8 @@ print(f"\npredicted: {y_pred_unnormalized}", f"\nmean is: {bicycle_thefts_data_r
 
 # endregion
 
-
+# region: export model
+joblib.dump(linear_model, '../models/linear_model.pkl')
+joblib.dump(X.columns, '../models/linear_model_columns.pkl')
+print("Models columns dumped!")
+# endregion

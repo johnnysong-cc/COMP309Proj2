@@ -13,7 +13,7 @@ from sklearn.impute import SimpleImputer
 # region: Load and describe data elements (columns), providing descriptions, types, ranges, and values.
 
 filename = 'Bicycle_Thefts_Open_Data.csv'  # change to parameter input later
-filepath = os.getcwd() + '/data/' + filename
+filepath = os.path.dirname(os.getcwd()) + '/data/' + filename
 raw_data_df = pd.read_csv(filepath)
 
 pd.set_option('display.max_columns', None)  # show all columns

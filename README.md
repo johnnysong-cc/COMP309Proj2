@@ -12,12 +12,12 @@
 - Since inviting other members, we will be working on our own branches and fire pull requests to merge into the `main` branch. Please do not commit directly to `main` branch.
 
 ## Project Objectives:
-- [ ] Obtain and prepare data:
-  - [ ] Load and explore the dataset referenced in Section 4 of this document using techniques from the course.
-  - [ ] Visualize and describe the data, identify correlations, and clean and transform categorical data.
-  - [ ] Build a supervised predictive model using a suitable classification algorithm in Python with scikit-learn, pandas, numpy, etc.
+- [x] Obtain and prepare data:
+  - [x] Load and explore the dataset referenced in Section 4 of this document using techniques from the course.
+  - [x] Visualize and describe the data, identify correlations, and clean and transform categorical data.
+  - [◑] Build a supervised predictive model using a suitable classification algorithm in Python with scikit-learn, pandas, numpy, etc.
 - [ ] Validate and evaluate models, selecting the best one.
-- [ ] Create an API for the model using the Python Flask framework.
+- [◑] Create an API for the model using the Python Flask framework.
 - [ ] Develop a simple front end to access the API and input new feature values for predictions.
 
 ## Project Dataset:
@@ -51,36 +51,36 @@ Provide the following deliverables:
 ### Data exploration
 
 - [x] Load and describe data elements (columns), providing descriptions, types, ranges, and values.
-- [◑] Perform statistical assessments, including means, averages, and correlations.
+- [x] Perform statistical assessments, including means, averages, and correlations.
 - [x] Evaluate missing data.
-- [◑] Create graphs and visualizations.
+- [x] Create graphs and visualizations.
 
 ### Data modeling
 
-- [◑] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
-- [ ] Select features.
-- [ ] Split data into training and testing sets.
+- [x] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
+- [x] Select features.
+- [x] Split data into training and testing sets.
 - [ ] Handle imbalanced classes if needed.
 
 ### Predictive model building
 
-- [ ] Use logistic regression and decision trees as a **minimum**.
+- [◑] Use logistic regression and decision trees as a **minimum**.
 - [ ] etc.
 
 ### Model scoring and evaluation
 
-- [ ] Present results as scores, confusion matrices, and ROC curves.
+- [◑] Present results as scores, confusion matrices, and ROC curves.
 - [ ] Select the best-performing model.
 
 ### Deploying the model
 
-- [ ] Use Flask to create an API.
-- [ ] Serialize and deserialize the model using the pickle module.
+- [◑] Use Flask to create an API.
+- [◑] Serialize and deserialize the model using the pickle module.
 - [ ] Build a client to test the model API service. Postman is the mimimum.
 
 ### Prepare a report
 
-- [ ] Include an executive summary, overview of the solution, data exploration, feature selection, data modeling, and model building.
+- [◑] Include an executive summary, overview of the solution, data exploration, feature selection, data modeling, and model building.
 
 
 ## Project References:

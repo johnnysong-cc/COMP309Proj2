@@ -1,8 +1,6 @@
 # region: Import dependencies
 
-import os
-import sys
-import random
+import os,sys,random
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -20,7 +18,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 # region: Data collection and general cleansing
 
 filename = 'Bicycle_Thefts_Open_Data.csv'  # change to parameter input later
-filepath = os.getcwd() + '/data/' + filename
+filepath = os.path.dirname(os.getcwd()) + '/data/' + filename
 raw_data_df = pd.read_csv(filepath)
 
 # region: pd display options
@@ -35,10 +33,10 @@ pd.set_option('display.float_format', lambda x: '%.4f' % x)
 # endregion
 
 # region: print data description in the console
-# print(f'\nShape of Data: \n  - Number of records: {raw_data_df.shape[0]}\n  - Number of Columns (Features): {raw_data_df.shape[1]}\n')
-# print(f'\nHead and Tail Rows: \n {raw_data_df.head()} \n\n {raw_data_df.tail()}\n')
-# [print(f'Column Name: {colName} \t Data Type: {colType}') for colName,colType in zip(raw_data_df.columns, raw_data_df.dtypes)]
-# print(f'\nDescribe Data: \n{raw_data_df.describe(include="all")}\n')
+print(f'\nShape of Data: \n  - Number of records: {raw_data_df.shape[0]}\n  - Number of Columns (Features): {raw_data_df.shape[1]}\n')
+print(f'\nHead and Tail Rows: \n {raw_data_df.head()} \n\n {raw_data_df.tail()}\n')
+[print(f'Column Name: {colName} \t Data Type: {colType}') for colName,colType in zip(raw_data_df.columns, raw_data_df.dtypes)]
+print(f'\nDescribe Data: \n{raw_data_df.describe(include="all")}\n')
 # endregion
 
 # region: data cleansing - general cleansing phase
@@ -50,8 +48,6 @@ However, the types of locations are still useful
 columns_to_drop_positional = ['X', 'Y', 'HOOD_158', 'HOOD_140',
                               'NEIGHBOURHOOD_158', 'NEIGHBOURHOOD_140', 'DIVISION', 'LONG_WGS84', 'LAT_WGS84']
 columns_to_drop.extend(columns_to_drop_positional)
-# data_cleansed_general: pd.DataFrame = raw_data_df.drop(
-#     columns=['X', 'Y', 'HOOD_158', 'HOOD_140', 'NEIGHBOURHOOD_158', 'NEIGHBOURHOOD_140', 'DIVISION', 'LONG_WGS84', 'LAT_WGS84'])
 
 """
 Convert date/time columns to datetime type of unix timestamps
@@ -61,10 +57,7 @@ month_mapping = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 
                  'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
 raw_data_df['OCC_MONTH'] = raw_data_df['OCC_MONTH'].map(month_mapping)
 raw_data_df['REPORT_MONTH'] = raw_data_df['REPORT_MONTH'].map(month_mapping)
-# data_cleansed_general['OCC_MONTH'] = data_cleansed_general['OCC_MONTH'].map(
-#     month_mapping)  # ; print(data_cleansed1['OCC_MONTH'].head())
-# data_cleansed_general['REPORT_MONTH'] = data_cleansed_general['REPORT_MONTH'].map(
-#     month_mapping)  # ; print(data_cleansed1['REPORT_MONTH'].head())
+
 
 # Convert the OCC_TIMESTAMP column to datetime type of unix timestamps
 raw_data_df['OCC_TIMESTAMP'] = pd.to_datetime(
@@ -95,10 +88,6 @@ OBJECTID is simply a sequence from 1 to the number of records, which can be repl
 """
 columns_to_drop_misc = ['OBJECTID']
 columns_to_drop.extend(columns_to_drop_misc)
-
-"""
-TODO: merge similar PRIMARY_OFFENCES, e.g., 'B&E', 'B&E OUT' & 'B&E W'INTENT' into 'B&E'
-"""
 
 
 # At the end of general cleansing, drop the columns
@@ -168,8 +157,8 @@ unique_values_per_column: pd.DataFrame = data_cleansed_general.drop(columns=['EV
 
 # ; print(f'\nMissing:\n{missing_counts_dict}\n')
 missing_counts_dict = data_cleansed_general.isnull().sum().to_dict()
-missing_rowIndexes_dict = {k: data_cleansed_general[data_cleansed_general[k].isnull()].index.to_list(
-) for k in data_cleansed_general.columns if data_cleansed_general[k].isnull().any()}
+missing_rowIndexes_dict = {k: data_cleansed_general[data_cleansed_general[k].isnull()].index.to_list() 
+                           for k in data_cleansed_general.columns if data_cleansed_general[k].isnull().any()}
 
 imputer_freq = SimpleImputer(strategy='most_frequent')
 imputer_mean = SimpleImputer(strategy='mean')
@@ -197,9 +186,10 @@ print('Imputation is successful' if data_cleansed_general.isnull(
 
 # region: Normalize numeric data ("BIKE_COST" to "BIKE_COST_NORMALIZED", "BIKE_SPEED" to "BIKE_SPEED_NORMALIZED")
 
-scaler = preprocessing.StandardScaler()
+# scaler = preprocessing.StandardScaler()
+scaler = preprocessing.MinMaxScaler()
 data_cleansed_general['BIKE_COST_NORMALIZED'] = scaler.fit_transform(
-    data_cleansed_general[['BIKE_COST']])
+    data_cleansed_general[['BIKE_COST']]) # fit_transform() expects a 2D array
 data_cleansed_general['BIKE_SPEED_NORMALIZED'] = scaler.fit_transform(
     data_cleansed_general[['BIKE_SPEED']])
 # data_cleansed_general.drop(columns=['BIKE_COST','BIKE_SPEED','EVENT_UNIQUE_ID'], inplace=True)
@@ -208,10 +198,6 @@ check normalized data
 """
 print(
     f'\nDescribe Normalized Data: \n{data_cleansed_general.describe(include="all")}\n')
-
-# 578, 0.5%. Can be dropped when predicting if the bike is stolen or not
-print((data_cleansed_general[data_cleansed_general['STATUS'] == 'UNKNOWN'])[
-      'STATUS'].count())
 
 # endregion
 
@@ -336,7 +322,7 @@ type_map = {"UNKNOWN MAKE": "UNKNOWN", "KONA\\": "KONA", "GI": "GIANT", "GIAN": 
             "RM": "ROCKY MOUNTAIN", "SC": "SCHWINN", "SP": "SPECIALIZED", "SPEC": "SPECIALIZED", "SU": "SUPERCYCLE", "TR": "TREK",
             "OT": "Other", "OTHE": "Other", "UNKNOWN": "Other", "Unknown": "Other", "UK": "Other", "UNK": "Other", "UNKNOWN MAKE": "Other", "OTHER": "Other", }
 # There are still OTHER in the data, so we need to convert to upper case first
-bicycle_thefts_data_regr['BIKE_MAKE'] = bicycle_thefts_data_regr['BIKE_MAKE'].str.upper()
+# bicycle_thefts_data_regr['BIKE_MAKE'] = bicycle_thefts_data_regr['BIKE_MAKE'].str.upper()
 bicycle_thefts_data_regr['BIKE_MAKE'] = bicycle_thefts_data_regr['BIKE_MAKE'].map(
     type_map).fillna(bicycle_thefts_data_regr['BIKE_MAKE'])
 # 2. Get the top 10 most frequent values and group the rest into 'Other'
@@ -441,7 +427,7 @@ print(bicycle_thefts_data_regr.head(50).to_string())
 
 # region: export cleansed data to csv
 
-data_cleansed_general.to_csv('data/bicycle_thefts_data_cleansed_general.csv', index=False) # index=False to avoid adding the index column
-bicycle_thefts_data_regr.to_csv('data/bicycle_thefts_data_regr.csv', index=False)
+data_cleansed_general.to_csv('../data/bicycle_thefts_data_cleansed_general.csv', index=False) # index=False to avoid adding the index column
+bicycle_thefts_data_regr.to_csv('../data/bicycle_thefts_data_regr.csv', index=False)
 
 # endregion
