@@ -4,7 +4,7 @@ from sklearn import preprocessing
 from sklearn.impute import SimpleImputer
 # endregion: Import dependencies
 
-def data_cleansing_general(data: np.DataFrame, save: bool = False, filename: str = ''):
+def data_cleansing_general(data: pd.DataFrame, save: bool = False, filename: str = ''):
   columns_to_drop = []
 
   """
@@ -63,7 +63,7 @@ def data_cleansing_general(data: np.DataFrame, save: bool = False, filename: str
 
   return data
 
-def impute_missing_values(data: np.DataFrame, save: bool = False, filename: str = ''):
+def impute_missing_values(data: pd.DataFrame, save: bool = False, filename: str = ''):
   imputer_freq = SimpleImputer(strategy='most_frequent')
   imputer_mean = SimpleImputer(strategy='mean')
   imputer_median = SimpleImputer(strategy='median')
@@ -87,7 +87,7 @@ def impute_missing_values(data: np.DataFrame, save: bool = False, filename: str 
 
   return data
 
-def normalize_data(data: np.DataFrame, save: bool = False, filename: str = ''):
+def normalize_data(data: pd.DataFrame, save: bool = False, filename: str = ''):
   scaler = preprocessing.MinMaxScaler()
   data['BIKE_COST_NORMALIZED'] = scaler.fit_transform(data[['BIKE_COST']])
   data['BIKE_SPEED_NORMALIZED'] = scaler.fit_transform(data[['BIKE_SPEED']])
@@ -102,7 +102,7 @@ def normalize_data(data: np.DataFrame, save: bool = False, filename: str = ''):
 
   return data
 
-def label_encoding(data: np.DataFrame, save: bool = False, filename: str = ''):
+def label_encoding(data: pd.DataFrame, save: bool = False, filename: str = ''):
   categorical_columns = ['BIKE_MAKE', 'BIKE_MODEL', 'BIKE_COLOUR', 'BIKE_TYPE', 'PREMISES_TYPE', 'LOCATION_TYPE', 'PRIMARY_OFFENCE', 'STATUS']
 
   # For BIKE_MAKE:

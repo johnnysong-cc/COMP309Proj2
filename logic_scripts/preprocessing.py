@@ -179,8 +179,7 @@ data_cleansed_general['BIKE_COST'] = imputer_mean.fit_transform(
 """
 check for missing data again
 """
-print('Imputation is successful' if data_cleansed_general.isnull(
-).sum().all() == 0 else 'Imputation is not successful')
+print('Imputation is successful' if data_cleansed_general.isnull().sum().all() == 0 else 'Imputation is not successful')
 
 # endregion
 
@@ -196,8 +195,7 @@ data_cleansed_general['BIKE_SPEED_NORMALIZED'] = scaler.fit_transform(
 """
 check normalized data
 """
-print(
-    f'\nDescribe Normalized Data: \n{data_cleansed_general.describe(include="all")}\n')
+print(f'\nDescribe Normalized Data: \n{data_cleansed_general.describe(include="all")}\n')
 
 # endregion
 
@@ -359,8 +357,8 @@ bicycle_thefts_data_regr['BIKE_COLOUR'] = bicycle_thefts_data_regr['BIKE_COLOUR'
 # For PREMISES_TYPE: Educational and Commercial are both public places, and Transit can also be seen as Outside given its small number, so we will merge them
 premises_map = {"Commercial": "Public Places",
                 "Educational": "Public Places", "Transit": "Outside"}
-bicycle_thefts_data_regr['PREMISES_TYPE'] = bicycle_thefts_data_regr['PREMISES_TYPE'].map(
-    premises_map).fillna(bicycle_thefts_data_regr['PREMISES_TYPE'])
+bicycle_thefts_data_regr['PREMISES_TYPE'] = bicycle_thefts_data_regr['PREMISES_TYPE']\
+                                            .map(premises_map).fillna(bicycle_thefts_data_regr['PREMISES_TYPE'])
 
 # For LOCATION_TYPE: 90 types seems too many, and they are derived from PREMISES_TYPE, so we give up on this column for now as the accuracy does not have to be this granular
 
@@ -394,8 +392,8 @@ replacement_dict = {
     # Failure to Comply does not imply a specific offence type
     r'.*(FTC|OTHER).*': 'Other',
 }
-bicycle_thefts_data_regr['PRIMARY_OFFENCE'] = bicycle_thefts_data_regr['PRIMARY_OFFENCE'].replace(
-    replacement_dict, regex=True)
+bicycle_thefts_data_regr['PRIMARY_OFFENCE'] = bicycle_thefts_data_regr['PRIMARY_OFFENCE'].replace(replacement_dict, regex=True)
+
 # 2. Manual mapping
 # pri_offence_map = {"THEFT OF MOTOR VEHICLE":"THEFT OVER",""}
 # 3. Get the top 10 most frequent values and group the rest into 'Other'
@@ -423,6 +421,7 @@ print(f'\n{bicycle_thefts_data_regr["STATUS"].value_counts()}')
 print(bicycle_thefts_data_regr.info())
 print(bicycle_thefts_data_regr.head(50).to_string())
 
+print(f"\nShape after label encoding:\n  - Number of rows:{bicycle_thefts_data_regr.shape[0]}\n  - Number of columns: {bicycle_thefts_data_regr.shape[1]}")
 # endregion
 
 # region: export cleansed data to csv
