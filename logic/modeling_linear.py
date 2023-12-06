@@ -70,6 +70,9 @@ print(f"\npredicted: {y_pred_unnormalized}", f"\nmean is: {bicycle_thefts_data_r
 # endregion
 
 # region: export model
+if not os.path.exists('../models'):
+    os.mkdir('../models')
+
 joblib.dump(linear_model, '../models/linear_model.pkl')
 joblib.dump(X.columns, '../models/linear_model_features.pkl')
 print("Models columns dumped!")

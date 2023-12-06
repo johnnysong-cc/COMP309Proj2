@@ -72,6 +72,9 @@ confusion_matrix = metrics.confusion_matrix(y_test, Y_P)
 print(f'\nConfusion Matrix:\n{confusion_matrix}')
 # endregion
 
+if not os.path.exists('../models'):
+    os.mkdir('../models')
+
 # region: dump the model
 joblib.dump(clf1, '../models/model_logistic.pkl')
 joblib.dump(selected_features, '../models/model_logistic_features.pkl')
