@@ -58,7 +58,32 @@ def predict_linregress():
 
 @app.route('/predict/logregress', methods=['POST'])
 def predict_logregress():
-    pass
+    print(request.data)
+    if logistic_model and logistic_model_features:
+        try:
+            json_ = request.json
+            print(json_)
+            query = pd.DataFrame(json_)
+
+            scaler = preprocessing.MinMaxScaler()
+            query['BIKE_COST_NORMALIZED'] = scaler.fit_transform(query(['BIKE_COST']))
+            query['BIKE_SPEED_NORMALIZED'] = scaler.fit_transform(query(['BIKE_SPEED']))
+
+            data_encoded_ori = pd.get_dummies(query.drop(
+                ['EVENT_UNIQUE_ID', 'LOCATION_TYPE', 'OCC_TIMESTAMP',
+                 'REPORT_TIMESTAMP', 'BIKE_COST', 'BIKE_SPEED'], axis=1),
+            drop_first=True)
+            
+            data_encoded = data_encoded_ori.astype(float)
+            data_encoded = data_encoded.reindex(columns=logistic_model_features, fill_value=0)
+
+            print(data_encoded)
+
+            prediction = list(logistic_model.predict(data_encoded))
+            return jsonify({'prediction': str(prediction)})
+        except:
+            return jsonify({'trace': traceback.format_exc()})
+
 
 
 @app.route('/description', methods=['GET'])
