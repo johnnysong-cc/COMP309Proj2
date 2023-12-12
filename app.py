@@ -7,6 +7,27 @@ import traceback, sys, os, joblib, pandas as pd, numpy as np
 
 app = Flask(__name__)
 
+# Function to preprocess the data for the decision tree model
+def preprocess_data_for_dtree(query):
+    # Convert to numeric and drop non-numeric columns
+    query_numeric = query.select_dtypes(include=[np.number])
+    return query_numeric
+
+@app.route('/predict/dectree', methods=['POST'])
+def predict_dectree():
+    if decision_tree_model:
+        try:
+            json_ = request.json
+            query = pd.DataFrame(json_)
+
+            # Preprocess the data
+            query_processed = preprocess_data_for_dtree(query)
+
+            # Predict using the decision tree model
+            prediction = decision_tree_model.predict(query_processed)
+            return jsonify({'prediction': prediction.tolist()})
+        except:
+            return jsonify({'trace': traceback.format_exc()})
 
 @app.route('/predict/linregress', methods=['POST'])
 def predict_linregress():
@@ -65,8 +86,9 @@ if __name__ == '__main__':
     try:
         linear_model = joblib.load('./models/linear_model.pkl')
         linear_model_features = joblib.load('./models/linear_model_features.pkl')
-        logistic_model = joblib.load('./models/logistic_model.pkl')
-        logistic_model_features = joblib.load('./models/logistic_model_features.pkl')
+        logistic_model = joblib.load('./models/model_logistic.pkl')
+        logistic_model_features = joblib.load('./models/model_logistic_features.pkl')
+        decision_tree_model = joblib.load('./models/decision_tree_model.pkl')
         print('Models loaded')
     except:
         print('Models could not be loaded')

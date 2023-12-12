@@ -4,6 +4,7 @@
 
 - Johnny Z. Song (301167073)
 - Ruslan Ibragimov (301199215)
+- Thedyson Luzon (301127562)
 
 ## GitHub Rules:
 
@@ -64,7 +65,7 @@ Provide the following deliverables:
 
 ### Predictive model building
 
-- [◑] Use logistic regression and decision trees as a **minimum**.
+- [x] Use logistic regression and decision trees as a **minimum**.
 - [ ] etc.
 
 ### Model scoring and evaluation
