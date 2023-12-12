@@ -3,7 +3,7 @@ import os,sys,random,io
 import numpy as np,pandas as pd,seaborn as sns,matplotlib.pyplot as plt
 # endregion
 
-def explorative_vis(data: np.DataFrame, save: bool = False, filename: str = ''):
+def explorative_vis(data: pd.DataFrame, save: bool = False, filename: str = ''):
   fig, axes = plt.subplots(2, 2, figsize=(10, 10))
   fig.suptitle('Fundamental Visualizations')
 
