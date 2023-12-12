@@ -4,7 +4,7 @@ import pandas as pd
 from scipy import stats
 # endregion: Import dependencies
 
-def describe_data(data:np.DataFrame):
+def describe_data(data:pd.DataFrame):
   # region: pd display options
   pd.set_option('display.max_columns', None)  # show all columns
   pd.option_context('display.max_rows', None)  # show all rows
@@ -27,7 +27,7 @@ def describe_data(data:np.DataFrame):
     'describe': describe_info,
   }
 
-def explorative_assessment(data:np.DataFrame, drop_columns:list = []):
+def explorative_assessment(data:pd.DataFrame, drop_columns:list = []):
   stats_raw = data.describe(include='all').drop(columns=drop_columns)
   means: pd.Series = stats_raw.loc["mean"].astype(float).to_frame().select_dtypes(include=[np.number]).drop(columns=drop_columns).dropna()
   stds: pd.Series = stats_raw.loc["std"].astype(float).to_frame().select_dtypes(include=[np.number]).drop(columns=drop_columns).dropna()
@@ -55,7 +55,7 @@ def explorative_assessment(data:np.DataFrame, drop_columns:list = []):
     'unique_values': unique_values,
   }
 
-def correlation_assessment(data:np.DataFrame):
+def correlation_assessment(data:pd.DataFrame):
   correlation_matrix = data.select_dtypes(include=[np.number]).corr()\
                        .where((data.select_dtypes(include=[np.number]).corr() > 0.5)
                                | (data.select_dtypes(include=[np.number]).corr() < -0.5))
@@ -63,7 +63,7 @@ def correlation_assessment(data:np.DataFrame):
     'correlation_matrix': correlation_matrix,
   }
 
-def chi2_assessment(data: np.DataFrame, drop_columns: list = []):
+def chi2_assessment(data: pd.DataFrame, drop_columns: list = []):
   cat_columns = data.select_dtypes(include=['object']).drop(columns=drop_columns).columns
   chi2_results = {}
 
