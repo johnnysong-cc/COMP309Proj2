@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 import numpy as np, pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import RocCurveDisplay, roc_curve
 from sklearn.feature_selection import RFE
 from sklearn import linear_model
 from sklearn import metrics
+
 
 # endregion
 
@@ -70,6 +72,11 @@ prob_df['predict'] = np.where(prob_df[0] >= 0.05, 1, 0)
 Y_P = np.array(prob_df['predict'])
 confusion_matrix = metrics.confusion_matrix(y_test, Y_P)
 print(f'\nConfusion Matrix:\n{confusion_matrix}')
+
+y_score = clf1.decision_function(X_test)
+fpr, tpr, _ = roc_curve(y_test, y_score, pos_label=clf1.classes_[1])
+roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
+
 # endregion
 
 if not os.path.exists('../models'):

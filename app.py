@@ -1,17 +1,24 @@
-# region: Import dependencies
-from flask import Flask, request, jsonify, send_file
-from sklearn import preprocessing
-import traceback, sys, os, joblib, pandas as pd, numpy as np
+import joblib
+import numpy as np
+import pandas as pd
+import sys
+import traceback
 
-# endregion: Import dependencies
+from flask import Flask, request, jsonify, render_template
+from sklearn import preprocessing
+
+from plotting.create_plot import getstats, create_plot
 
 app = Flask(__name__)
 
-# Function to preprocess the data for the decision tree model
+df = pd.read_csv('./data/Bicycle_Thefts_Open_Data.csv')
+
+
 def preprocess_data_for_dtree(query):
     # Convert to numeric and drop non-numeric columns
     query_numeric = query.select_dtypes(include=[np.number])
     return query_numeric
+
 
 @app.route('/predict/dectree', methods=['POST'])
 def predict_dectree():
@@ -28,6 +35,7 @@ def predict_dectree():
             return jsonify({'prediction': prediction.tolist()})
         except:
             return jsonify({'trace': traceback.format_exc()})
+
 
 @app.route('/predict/linregress', methods=['POST'])
 def predict_linregress():
@@ -58,22 +66,67 @@ def predict_linregress():
 
 @app.route('/predict/logregress', methods=['POST'])
 def predict_logregress():
-    pass
+    print(request.data)
+    if logistic_model and logistic_model_features:
+        try:
+            json_ = request.json
+            print(json_)
+            query = pd.DataFrame(json_)
+
+            scaler = preprocessing.MinMaxScaler()
+            query['BIKE_COST_NORMALIZED'] = scaler.fit_transform(query(['BIKE_COST']))
+            query['BIKE_SPEED_NORMALIZED'] = scaler.fit_transform(query(['BIKE_SPEED']))
+
+            data_encoded_ori = pd.get_dummies(query.drop(
+                ['EVENT_UNIQUE_ID', 'LOCATION_TYPE', 'OCC_TIMESTAMP',
+                 'REPORT_TIMESTAMP', 'BIKE_COST', 'BIKE_SPEED'], axis=1),
+                drop_first=True)
+
+            data_encoded = data_encoded_ori.astype(float)
+            data_encoded = data_encoded.reindex(columns=logistic_model_features, fill_value=0)
+
+            print(data_encoded)
+
+            prediction = list(logistic_model.predict(data_encoded))
+            return jsonify({'prediction': str(prediction)})
+        except:
+            return jsonify({'trace': traceback.format_exc()})
 
 
 @app.route('/description', methods=['GET'])
 def data_description():
-    pass  # TODO
+    print(df.describe())
+    return f"{df.describe()}"
 
 
 @app.route('/statistics', methods=['GET'])
 def data_statistics():
-    pass  # TODO
+    return jsonify(getstats(df))
 
 
-@app.route('/visualization', methods=['GET', 'POST'])
+@app.route('/visualization', methods=['GET'])
 def data_visualization():
-    pass  # TODO
+    stats = getstats(df)
+
+    image_paths = []
+    for key in stats:
+        if stats[key]:
+            image_path = create_plot(stats[key], key.capitalize())
+            image_paths.append(image_path)
+        else:
+            print(f"Data for {key} is empty or None.")
+
+    html_content = '<h1>Data Visualizations</h1>'
+    for key in stats:
+        image_b64 = create_plot(stats[key], key.capitalize())
+        html_content += f'<img src="{image_b64}" alt="{key.capitalize()}"><br>'
+
+    return html_content
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
