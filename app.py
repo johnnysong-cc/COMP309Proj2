@@ -8,26 +8,21 @@ import traceback, sys, os, joblib, pandas as pd, numpy as np
 app = Flask(__name__)
 
 # Function to preprocess the data for the decision tree model
-def preprocess_data_for_dtree(query):
-    # Convert to numeric and drop non-numeric columns
-    query_numeric = query.select_dtypes(include=[np.number])
-    return query_numeric
+def preprocess_data_for_dtree(query_df):
+    return query_df.select_dtypes(include=[np.number])
 
 @app.route('/predict/dectree', methods=['POST'])
 def predict_dectree():
     if decision_tree_model:
         try:
-            json_ = request.json
-            query = pd.DataFrame(json_)
-
-            # Preprocess the data
-            query_processed = preprocess_data_for_dtree(query)
-
-            # Predict using the decision tree model
+            json_data = request.get_json()
+            query_df = pd.DataFrame(json_data)
+            query_processed = preprocess_data_for_dtree(query_df)
             prediction = decision_tree_model.predict(query_processed)
             return jsonify({'prediction': prediction.tolist()})
-        except:
-            return jsonify({'trace': traceback.format_exc()})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    return jsonify({'error': 'Decision tree model is not loaded'}), 500
 
 @app.route('/predict/linregress', methods=['POST'])
 def predict_linregress():
