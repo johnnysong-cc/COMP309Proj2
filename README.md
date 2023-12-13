@@ -3,62 +3,85 @@
 ## Group Members:
 
 - Johnny Z. Song (301167073)
+- Ruslan Ibragimov (301199215)
+- Thedyson Luzon (301127562)
 
 ## GitHub Rules:
 
 - I started this project by creating the `main` branch with some initial steps. 
 
-- Since inviting other members, we will be working on our own branches and fire pull requests to merge into `main` branch. Please do not commit directly to `main` branch.
+- Since inviting other members, we will be working on our own branches and fire pull requests to merge into the `main` branch. Please do not commit directly to `main` branch.
 
 ## Project Objectives:
-- [ ] Obtain and prepare data:
-  - [ ] Load and explore the dataset referenced in Section 4 of this document using techniques from the course.
-  - [ ] Visualize and describe the data, identify correlations, and clean and transform categorical data.
-  - [ ] Build a supervised predictive model using a suitable classification algorithm in Python with scikit-learn, pandas, numpy, etc.
+- [x] Obtain and prepare data:
+  - [x] Load and explore the dataset referenced in Section 4 of this document using techniques from the course.
+  - [x] Visualize and describe the data, identify correlations, and clean and transform categorical data.
+  - [◑] Build a supervised predictive model using a suitable classification algorithm in Python with scikit-learn, pandas, numpy, etc.
 - [ ] Validate and evaluate models, selecting the best one.
-- [ ] Create an API for the model using the Python Flask framework.
+- [◑] Create an API for the model using the Python Flask framework.
 - [ ] Develop a simple front end to access the API and input new feature values for predictions.
 
 ## Project Dataset:
 -  [Download link](https://opendata.arcgis.com/api/v3/datasets/a89d10d5e28444ceb0c8d1d4c0ee39cc_0/downloads/data?format=csv&spatialRefId=3857&where=1%3D1)
 
-## Project Requirements:
+## Setup Instructions
+
+### Step 1: Create a Virtual Environment
+To isolate our project's dependencies, we'll use a virtual environment. This helps to keep your global Python environment clean and manage project-specific dependencies more effectively. Run the following command to create a virtual environment named `venv`:
+
+```bash
+python3 -m venv venv
+```
+
+### Step 2: Activate the Virtual Environment
+After creating the virtual environment, you need to activate it. This will ensure that any Python packages you install will be contained within this environment. Use the following command to activate it:
+
+```bash
+source venv/bin/activate
+```
+
+### Step 3: Install Required Packages
+Now that your virtual environment is active, install the required packages as defined in the `requirements.txt` file. This file lists all the necessary Python packages for the project. Run this command to install them:
+
+```bash
+pip install -r requirements.txt
+```
 
 Provide the following deliverables:
 
 ### Data exploration
 
 - [x] Load and describe data elements (columns), providing descriptions, types, ranges, and values.
-- [◑] Perform statistical assessments, including means, averages, and correlations.
+- [x] Perform statistical assessments, including means, averages, and correlations.
 - [x] Evaluate missing data.
-- [◑] Create graphs and visualizations.
+- [x] Create graphs and visualizations.
 
 ### Data modeling
 
-- [◑] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
-- [ ] Select features.
-- [ ] Split data into training and testing sets.
+- [x] Perform data transformations, including handling missing data, managing categorical data, and data normalization.
+- [x] Select features.
+- [x] Split data into training and testing sets.
 - [ ] Handle imbalanced classes if needed.
 
 ### Predictive model building
 
-- [ ] Use logistic regression and decision trees as a **minimum**.
+- [x] Use logistic regression and decision trees as a **minimum**.
 - [ ] etc.
 
 ### Model scoring and evaluation
 
-- [ ] Present results as scores, confusion matrices, and ROC curves.
+- [◑] Present results as scores, confusion matrices, and ROC curves.
 - [ ] Select the best-performing model.
 
 ### Deploying the model
 
-- [ ] Use Flask to create an API.
-- [ ] Serialize and deserialize the model using the pickle module.
+- [◑] Use Flask to create an API.
+- [◑] Serialize and deserialize the model using the pickle module.
 - [ ] Build a client to test the model API service. Postman is the mimimum.
 
 ### Prepare a report
 
-- [ ] Include an executive summary, overview of the solution, data exploration, feature selection, data modeling, and model building.
+- [◑] Include an executive summary, overview of the solution, data exploration, feature selection, data modeling, and model building.
 
 
 ## Project References:
@@ -67,17 +90,40 @@ Provide the following deliverables:
   - X & Y: The coordinates in a specific projection system used for mapping and spatial analysis, representing longitude (X) and latitude (Y).
   - OBJECTID: The unique identifier for each record.
   - EVENT_UNIQUE_ID: The unique identifier for each reported event.
-  - PRIMARY_OFFENCE: The main offence reported in the event, such as "THEFT UNDER" or "PROPERTY - FOUND".
+  - PRIMARY_OFFENCE: The main offence reported in the event
+    - "UNDER/OVER": lower/higher than a particular value
+    - 
   - OCC_DATE: The date and time when the offence occurred.
   - OCC_YEAR, OCC_MONTH, OCC_DOW (Day Of Week), OCC_DAY, OCC_DOY (Day Of Year), OCC_HOUR: detailed timing information about when the offence occurred, split into year, month, day, day of the week, day of the year, and hour of the day.
   - REPORT_DATE, REPORT_YEAR, REPORT_MONTH, REPORT_DOW, REPORT_DAY, REPORT_DOY, REPORT_HOUR: etailed timing information about when the offence was reported, split into year, month, day, day of the week, day of the year, and hour of the day.
   - DIVISION: The police division that recorded the event.
-  - LOCATION_TYPE: The general type of the location where the event occurred, e.g., "Apartment" or "Commercial".
-  - PREMISES_TYPE: The specific type of the premises, such as "House" or "Apartment".
-  - BIKE_MAKE, BIKE_MODEL, BIKE_TYPE: The information about the bicycle, including the make, model, and type.
+  - LOCATION_TYPE: The **general** type of the location where the event occurred, e.g., "Apartment" or "Commercial".
+  - PREMISES_TYPE: The **specific** type of the premises, such as "House" or "Apartment".
+  - BIKE_MAKE: The information about the bicycle
+    - 
+  - BIKE_MODEL: The information about the bicycle
+    - 
+  - BIKE_TYPE: The information about the bicycle
+    - MT: Mountain Bike
+    - RG: Road Bike
+    - RC: Racing Cycle
+    - EL: Electric Bike
+    - TO: Touring Bike
+    - SC: Scooter
+    - BM: BMX Bike
+    - FO: Folding Bike
+    - TR: Trainer Bike
+    - TA: Tandem Bike
+    - RE: Recreational Bike
+    - UN: Unicycle
+    - OT: Other Type
   - BIKE_SPEED: The number of speeds the bike has.
+    - 1: Single Speed
+    - 
   - BIKE_COLOUR: The color of the bicycle.
   - BIKE_COST: The cost or value of the bicycle.
   - STATUS: Indicates whether the bicycle was stolen, recovered, etc.
   - HOOD_140 & NEIGHBOURHOOD_140 & HOOD_158 & NEIGHBOURHOOD_158: The numberic code 158 could be an identifier for data tracking purposes or a version number in a specific coding system for neighborhoods used by the Toronto Police
   - LONG_WGS84 & LAT_WGS84: The longitude and latitude of the event location in the WGS84 coordinate system (a standard used in cartography, geodesy, and navigation).
+
+- As per requirements, we will remove the position-associated columns at the beginning of the project, but types of locations are still useful so we will keep them.
