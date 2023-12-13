@@ -1,11 +1,13 @@
 # region: Import dependencies
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from sklearn import preprocessing
 import traceback, sys, os, joblib, pandas as pd, numpy as np
 
 # endregion: Import dependencies
 
 app = Flask(__name__)
+
+df = pd.read_csv('./data/Bicycle_Thefts_Open_Data.csv')
 
 # Function to preprocess the data for the decision tree model
 def preprocess_data_for_dtree(query):
@@ -88,17 +90,20 @@ def predict_logregress():
 
 @app.route('/description', methods=['GET'])
 def data_description():
-    pass  # TODO
-
+    print(df.describe())
+    return f"{df.describe()}"
 
 @app.route('/statistics', methods=['GET'])
 def data_statistics():
     pass  # TODO
 
-
 @app.route('/visualization', methods=['GET', 'POST'])
 def data_visualization():
     pass  # TODO
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
